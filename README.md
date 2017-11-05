@@ -22,17 +22,17 @@ To change the ROM, open the source code and change the name of the ROM in `self.
 ### CHIP-8 Controls
 For input, the CHIP-8 uses a 16 button hexadecimal keypad with the following keys: 
 
-1 2 3 C
-4 5 6 D
-7 8 9 E
-A 0 B F
+1 2 3 C  
+4 5 6 D  
+7 8 9 E  
+A 0 B F  
 
 The keyboard mappings are as follows:
 
-1 2 3 4
-Q W E R
-A S D F
-Z X C V
+1 2 3 4  
+Q W E R  
+A S D F  
+Z X C V  
 
 ## System Requirements
 HallettMSE requires a Windows PC that can run Python 3.6, with Pygame installed.
