@@ -18,8 +18,6 @@ class Chip8:
         self.pc = 0x200
         self.sp = 0
         self.I = 0
-        self.redraw = True
-        self.interrupt = False
 
         pygame.display.init()
         self.surface = pygame.Surface((64, 32))
@@ -30,7 +28,8 @@ class Chip8:
         for i in range(0, len(self.fontset)):
             self.memory[i] = self.fontset[i]
 
-        self.transfer_rom_to_mem("pong.rom")
+        self.rom_name = "pong.rom"
+        self.transfer_rom_to_mem(self.rom_name)
         self.main_loop()
     
     def transfer_rom_to_mem(self, rom_name):
@@ -48,13 +47,14 @@ class Chip8:
                 self.keys[i] = 0
 
     def interpret_opcode(self, opcode):
-        print(format(opcode, '#04X'))
         self.NNN = opcode & 0x0FFF
         self.NN = opcode & 0x00FF
         self.X = (opcode & 0x0F00) >> 8
         self.Y = (opcode & 0x00F0) >> 4
         self.N = opcode & 0x000F
         self.ID = opcode & 0xF000
+        #print(format(self.pc, '#04x'), format(opcode, '#05x'))
+        #print(self.V, format(self.I,'#04x'))
 
         if self.ID == 0x0000:
             if self.NN == 0x00E0:
@@ -117,14 +117,13 @@ class Chip8:
                 self.V[self.X] -= self.V[self.Y]
                 if self.V[self.X] < 0:
                     self.V[self.X] += 256
-                    self.V[0xF] = 0
-                else:
                     self.V[0xF] = 1
+                else:
+                    self.V[0xF] = 0
                 self.pc += 2
             elif self.N == 0x0006:
-                self.V[0xF] = self.V[self.Y] & 0x1
-                self.V[self.Y] >>= 1
-                self.V[self.X] = self.V[self.Y]
+                self.V[0xF] = self.V[self.X] & 0x1
+                self.V[self.X] >>= 1
                 self.pc += 2
             elif self.N == 0x0007:
                 self.V[self.X] = self.V[self.Y] - self.V[self.X]
@@ -135,11 +134,10 @@ class Chip8:
                     self.V[0xF] = 1
                 self.pc += 2
             elif self.N == 0x000E:
-                self.V[0xF] = (self.V[self.Y] & 0x80) >> 7
-                self.V[self.Y] <<= 1
-                if self.V[self.Y] >= 256:
-                    self.V[self.Y] -= 256
-                self.V[self.X] = self.V[self.Y]
+                self.V[0xF] = (self.V[self.X] & 0x80) >> 7
+                self.V[self.X] <<= 1
+                if self.V[self.X] >= 256:
+                    self.V[self.X] -= 256
                 self.pc += 2
         elif self.ID == 0x9000:
             if self.V[self.X] != self.V[self.Y]:
@@ -155,7 +153,6 @@ class Chip8:
             self.V[self.X] = random.randrange(0,255) & self.NN
             self.pc += 2
         elif self.ID == 0xD000:
-            ##print("Drawing at ({},{}) sprite starting at {}".format(self.V[self.X], self.V[self.Y], format(self.I,'04X')))
             pixel = 0
             self.V[0xF] = 0
             for yline in range(0,self.N):
@@ -207,13 +204,14 @@ class Chip8:
             elif self.NN == 0x0055:
                 for i in range(0, self.X + 1):
                     self.memory[self.I + i] = self.V[i]
-                self.I += 3
+                #self.I += 3
                 self.pc += 2
             elif self.NN == 0x0065:
                 for i in range(0, self.X + 1):
                     self.V[i] = self.memory[self.I + i]
-                self.I += 3
+                #self.I += 3
                 self.pc += 2
+        
 
     def draw_screen(self):
         for x in range(0,64):
@@ -236,7 +234,10 @@ class Chip8:
             y += 32
         old = self.display[x][y]
         self.display[x][y] ^= 1
-        return (old == 1) and self.display[x][y] == 0
+        if (old == 1) and self.display[x][y] == 0:
+            return 1
+        else:
+            return 0
 
     def main_loop(self):
         done = False
@@ -257,9 +258,14 @@ class Chip8:
             if self.sound_timer > 0:
                 winsound.Beep(400,100)
                 self.sound_timer = 0
+            if self.sound_timer == 0:
+                self.s = False
 
             self.draw_screen()
-            #self.clock.tick(120)
+            if self.rom_name == "rand.rom":
+                self.clock.tick(30)
+            else:
+                self.clock.tick(60)
             
         pygame.quit()
 
