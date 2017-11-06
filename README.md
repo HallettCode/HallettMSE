@@ -17,7 +17,7 @@ The CHIP-8 Emulator is automatically set to run pong on startup. You can run Hal
 To change the ROM, open the source code and change the name of the ROM in `self.transfer_rom_to_mem("pong.rom")` on line 31.
 
 ### Emulator versions
-- CHIP-8 - Version 0.1b
+- CHIP-8 - Version 0.1
 
 ### CHIP-8 Controls
 For input, the CHIP-8 uses a 16 button hexadecimal keypad with the following keys: 
