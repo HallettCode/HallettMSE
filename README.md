@@ -17,7 +17,7 @@ The CHIP-8 Emulator is automatically set to run pong on startup. You can run Hal
 To change the ROM, open the source code and change the name of the ROM in `self.transfer_rom_to_mem("pong.rom")` on line 31.
 
 ### Emulator versions
-- CHIP-8 - Version 0.1
+- CHIP-8 - Version 0.1b
 
 ## System Requirements
 HallettMSE requires a Windows PC that can run Python 3.6, with Pygame installed.
