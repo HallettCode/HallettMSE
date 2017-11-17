@@ -1,5 +1,5 @@
 # HallettMSE
-Version 0.1c
+Version 0.2a
 
 ## Info
 
@@ -31,10 +31,14 @@ Support for Linux is coming soon
 - CHIP-8 Support
 - Bundled with sample ROMs
 
+### Version 0.2
+- SCHIP support - added compatibility list, 4 games
+- Cleaner directory
+- New experimental rendering system - expect much higher performance on low-end systems
+- Bugfixes
+
 ## Todo
 - UI for emulator selection
 - Expand on CHIP-8 Compatibility list
-- **_SCHIP_**
 - Linux support for CHIP-8 and SCHIP
-- Clean up the directory
 - Options
