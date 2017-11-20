@@ -4,7 +4,7 @@ Version 0.2a
 ## Info
 
 ### HallettMSE?
-HallettMSE is a multi-system emulator built in Python 3.6 using Pygame. It is currently Windows only.
+HallettMSE is a multi-system emulator built in Python 3.6 using Pygame and Numpy. It is currently Windows only.
 
 ### Emulator Support
 HallettMSE currently only supports CHIP-8 and SCHIP, but more will be coming in the future
@@ -17,9 +17,12 @@ The CHIP-8 Emulator is automatically set to run pong on startup. You can run Hal
 To change the ROM, open the source code and change the name of the ROM from the line `self.rom_name = "roms\\CHIP-8\\pong.rom"`
 
 ## System Requirements
-HallettMSE requires a Windows PC that can run Python 3.6, with Pygame installed.
+HallettMSE requires a Windows PC that can run Python 3.6, with Pygame and Numpy installed.
 Please note that the sound for the CHIP-8 and SCHIP emulator is generated using Winsound, which is windows only.
 Support for Linux is coming soon
+
+## Notes
+The new experimental renderer introduced in version 2.0a along with Superchip requires Numpy as a dependency. Please ensure that both Pygame and Numpy is installed in your Python 3 environment.
 
 ## Changelog
 
