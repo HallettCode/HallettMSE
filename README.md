@@ -1,5 +1,5 @@
 # HallettMSE
-Version 0.2a
+Version 0.2b
 
 ## Info
 
@@ -14,7 +14,7 @@ All ROMs bundled with HallettMSE are in the public domain and available freely o
 
 ### How to use HallettMSE
 The CHIP-8 Emulator is automatically set to run pong on startup. You can run HallettMSE either from the .bat file, or through the IDLE.
-To change the ROM, open the source code and change the name of the ROM from the line `self.rom_name = "roms\\CHIP-8\\pong.rom"`
+To change the ROM, open the source code and change the name of the ROM from the line `self.rom_name = "roms/CHIP-8/pong.rom"`
 
 ## System Requirements
 HallettMSE requires a Windows PC that can run Python 3.6, with Pygame and Numpy installed.
@@ -32,13 +32,11 @@ The new experimental renderer introduced in version 2.0a along with Superchip re
 - Bundled with sample ROMs
 
 ### Version 0.2
-- SCHIP support - added compatibility list, 4 games
+- SCHIP support - added compatibility list
 - Cleaner directory
 - New experimental rendering system - expect much higher performance on low-end systems
 - Bugfixes
 
 ## Todo
-- UI for emulator selection
-- Expand on CHIP-8 Compatibility list
+- UI for emulator selection/options
 - Linux support for CHIP-8 and SCHIP
-- Options

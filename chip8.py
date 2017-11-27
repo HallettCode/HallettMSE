@@ -42,7 +42,7 @@ class Chip8:
         for i in range(0, len(self.super_fontset)):
             self.memory[0x50 + i] = self.super_fontset[i]
 
-        self.rom_name = "roms\\CHIP-8\\pong.rom"
+        self.rom_name = "roms/CHIP-8/pong.rom"
         self.transfer_rom_to_mem(self.rom_name)
         self.main_loop()
     
@@ -213,7 +213,7 @@ class Chip8:
                     for xline in range(0,16):
                         if pixel & 0x8000 != 0:
                             if self.set_pixel(self.V[self.X]+xline,self.V[self.Y]+yline) == 1:
-                                self.V[0xF] = 1
+                                    self.V[0xF] = 1
                         pixel <<= 1
             else:
                 pixel = 0
@@ -222,8 +222,11 @@ class Chip8:
                     pixel = self.memory[self.I + yline]
                     for xline in range(0,8):
                         if pixel & 0x80 != 0:
-                            if self.set_pixel(self.V[self.X]+xline,self.V[self.Y]+yline) == 1:
-                                self.V[0xF] = 1
+                            if self.rom_name == 'roms/CHIP-8/blitz.rom':
+                                self.V[0xF] = self.set_pixel(self.V[self.X]+xline,self.V[self.Y]+yline)
+                            else:
+                                if self.set_pixel(self.V[self.X]+xline,self.V[self.Y]+yline) == 1:
+                                    self.V[0xF] = 1
                         pixel <<= 1
             self.pc += 2
         elif self.ID == 0xE000:
@@ -351,7 +354,7 @@ class Chip8:
                 self.sound_timer = 0
 
             self.draw_screen()
-            if self.rom_name == "rand.rom":
+            if self.rom_name == "roms/CHIP-8/rand.rom":
                 self.clock.tick(30)
             else:
                 self.clock.tick(120)
