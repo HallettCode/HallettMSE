@@ -222,11 +222,8 @@ class Chip8:
                     pixel = self.memory[self.I + yline]
                     for xline in range(0,8):
                         if pixel & 0x80 != 0:
-                            if self.rom_name == 'roms/CHIP-8/blitz.rom':
-                                self.V[0xF] = self.set_pixel(self.V[self.X]+xline,self.V[self.Y]+yline)
-                            else:
-                                if self.set_pixel(self.V[self.X]+xline,self.V[self.Y]+yline) == 1:
-                                    self.V[0xF] = 1
+                            if self.set_pixel(self.V[self.X]+xline,self.V[self.Y]+yline) == 1:
+                                self.V[0xF] = 1
                         pixel <<= 1
             self.pc += 2
         elif self.ID == 0xE000:
@@ -318,14 +315,24 @@ class Chip8:
             else:
                 return 0
         else:
-            if x > 63:
-                x -= 64
-            if x < 0:
-                x += 64
-            if y > 31:
-                y -= 32
-            if y < 0:
-                y += 32
+            if self.rom_name == "roms/CHIP-8/blitz.rom":
+                if x > 63:
+                    return 0
+                if x < 0:
+                    return 0
+                if y > 31:
+                    return 0
+                if y < 0:
+                    return 0
+            else:
+                if x > 63:
+                    x -= 64
+                if x < 0:
+                    x += 64
+                if y > 31:
+                    y -= 32
+                if y < 0:
+                    y += 32
             old = self.surfarray[x][y]
             self.surfarray[x][y] ^= 0xFFFFFF
             if (old == 0xFFFFFF) and self.surfarray[x][y] == 0x000000:
