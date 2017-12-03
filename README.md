@@ -1,5 +1,5 @@
 # HallettMSE
-Version 0.2c
+Version 0.2d
 
 ## Info
 

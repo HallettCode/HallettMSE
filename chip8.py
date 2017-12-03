@@ -31,11 +31,6 @@ class Chip8:
         pygame.display.set_caption("Chip8 Emulator")
 
         self.surfarray = pygame.surfarray.pixels2d(self.surface)
-        '''self.surfarray[3][3] = 0xFF0000
-        pygame.surfarray.blit_array(self.surface, self.surfarray)
-        pygame.transform.scale(self.surface, (self.screen.get_width(), self.screen.get_height()), self.screen)
-        pygame.display.flip()
-        '''
 
         for i in range(0, len(self.fontset)):
             self.memory[i] = self.fontset[i]
@@ -67,11 +62,9 @@ class Chip8:
         self.Y = (opcode & 0x00F0) >> 4
         self.N = opcode & 0x000F
         self.ID = opcode & 0xF000
-        ##print(format(self.pc, '#04x'), format(opcode, '#05x'))
-        ##print(self.V, format(self.I,'#04x'))
 
         if self.ID == 0x0000:
-            if self.Y == 0x000C: ## Scroll display N lines down
+            if self.Y == 0x000C:
                 for yline in range(63,self.N-1,-1):
                     for xline in range(0,128):
                         self.display[xline][yline] = self.display[xline][yline-self.N]
@@ -88,7 +81,7 @@ class Chip8:
             elif self.NN == 0x00EE:
                 self.sp -= 1
                 self.pc = self.stack[self.sp]
-            elif self.NN == 0x00FB: ## Scroll display 4 pixels right
+            elif self.NN == 0x00FB:
                 for yline in range(0,64):
                     for xline in range(127,3,-1):
                         self.display[xline][yline] = self.display[xline-4][yline]
@@ -97,7 +90,7 @@ class Chip8:
                     self.display[2][yline] = 0
                     self.display[3][yline] = 0
                 self.pc += 2
-            elif self.NN == 0x00FC: ## Scroll display 4 pixels left
+            elif self.NN == 0x00FC:
                 for yline in range(0,64):
                     for xline in range(0,124):
                         self.display[xline][yline] = self.display[xline + 4][yline]
@@ -254,8 +247,10 @@ class Chip8:
                 self.pc += 2
             elif self.NN == 0x001E:
                 self.I += self.V[self.X]
+                self.V[0xF] = 0
                 if self.I >= 4096:
                     self.I -= 4096
+                    self.V[0xF] = 1
                 self.pc += 2
             elif self.NN == 0x0029:
                 self.I = self.V[self.X] * 5
@@ -272,20 +267,20 @@ class Chip8:
             elif self.NN == 0x0055:
                 for i in range(0, self.X + 1):
                     self.memory[self.I + i] = self.V[i]
-                self.I += self.X
+                if self.mode == 0:
+                    self.I += self.X
                 self.pc += 2
             elif self.NN == 0x0065:
                 for i in range(0, self.X + 1):
                     self.V[i] = self.memory[self.I + i]
-                self.I += self.X
+                if self.mode == 0:
+                    self.I += self.X
                 self.pc += 2
             elif self.NN == 0x0075:
-                print("75")
                 for i in range(0, self.X + 1):
                     self.rpl[i] = self.V[i]
                 self.pc += 2
             elif self.NN == 0x0085:
-                print("85")
                 for i in range(0, self.X + 1):
                     self.V[i] = self.rpl[i]
                 self.pc += 2
@@ -364,7 +359,8 @@ class Chip8:
             if self.rom_name == "roms/CHIP-8/rand.rom":
                 self.clock.tick(30)
             else:
-                self.clock.tick(120)
+                self.clock.tick(300)
+
         pygame.quit()
 
 c = Chip8()
